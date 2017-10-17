@@ -1,0 +1,46 @@
+version '1.0.0'
+
+dependencies {
+    compile project(":translator-baidu-api")
+
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+        exclude module: "spring-boot-starter-logging"
+    }
+
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-undertow"
+}
+
+apply plugin: 'org.springframework.boot'
+
+springBoot {
+    executable = true
+}
+
+build {
+    doLast {
+        copy {
+            from "./translator-server.conf"
+            into "./build/libs"
+            rename {
+                "${jar.baseName}-${version}.conf"
+            }
+        }
+    }
+}
+
+task distribute(type: Zip) {
+    from("./build/libs")
+}
+
+build.finalizedBy distribute
+
+jar {
+    version = "${version}"
+    manifest {
+        attributes "Implementation-Version": "${version}"
+        attributes "Build-date": new Date()
+        attributes "Created-By": "ManerFan"
+    }
+}

@@ -1,0 +1,120 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.+'
+        dependencyManagementVersion = '1.0.+'
+    }
+
+    repositories {
+        mavenLocal()
+        maven {
+            name 'aliyun maven central'
+            url 'http://maven.aliyun.com/nexus/content/groups/public'
+        }
+        maven {
+            name 'spring repo milestone'
+            url 'https://repo.spring.io/milestone'
+        }
+        maven {
+            name 'spring plugins'
+            url 'http://repo.spring.io/plugins-release'
+        }
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath("io.spring.gradle:dependency-management-plugin:${dependencyManagementVersion}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+version = '1.0.0'
+description = 'document translator'
+
+apply plugin: 'idea'
+
+idea {
+    project {
+        languageLevel = '1.8'
+    }
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+configure(subprojects - project(":translator-ui")) {
+    group = 'com.manerfan.translator'
+
+    apply plugin: 'java'
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+
+    repositories {
+        mavenLocal()
+        maven {
+            name 'aliyun maven central'
+            url 'http://maven.aliyun.com/nexus/content/groups/public'
+        }
+        maven {
+            name 'spring repo milestone'
+            url 'https://repo.spring.io/milestone'
+        }
+        maven {
+            name 'spring plugins'
+            url 'http://repo.spring.io/plugins-release'
+        }
+        mavenCentral()
+        jcenter()
+    }
+
+    configurations {
+        all*.exclude module: 'spring-boot-starter-tomcat'
+        all*.exclude module: 'spring-boot-starter-logging'
+    }
+
+    ext {
+        cglibVersion = '3.2.+'
+    }
+
+    apply plugin: "io.spring.dependency-management"
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+        }
+    }
+
+    dependencies {
+        compile 'org.springframework.boot:spring-boot-devtools'
+        compile 'org.springframework.boot:spring-boot-starter-log4j2'
+
+        compile 'org.springframework.boot:spring-boot-starter-aop'
+        compile("cglib:cglib-nodep:${cglibVersion}")
+
+        testCompile("junit:junit:4.12")
+    }
+
+    compileJava.dependsOn(processResources)
+
+    [compileJava, javadoc, compileTestJava]*.options*.encoding = 'UTF-8'
+
+    javadoc {
+        options {
+            encoding 'UTF-8'
+            charSet 'UTF-8'
+            author true
+            version true
+            title 'Spring Boot'
+        }
+    }
+
+    test {
+        forkEvery = 5 // 在fork测试进程中执行测试类的最大数量
+        maxParallelForks = Runtime.runtime.availableProcessors() / 2 // fork进程最大数量
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.5'
+}

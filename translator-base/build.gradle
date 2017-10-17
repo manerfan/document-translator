@@ -1,0 +1,15 @@
+version '1.0.0'
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-log4j2"
+}
+
+jar {
+    baseName = "trans-base"
+    version = "${version}"
+    manifest {
+        attributes "Implementation-Version": "${version}"
+        attributes "Build-date": new Date()
+        attributes "Created-By": "ManerFan"
+    }
+}

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="ERROR" strict="true" name="Dev Logging">
+    <Properties>
+        <Property name="patternLayout">
+            %d [%highlight{%-5level}] %style{%-45c{1.}}{bright,cyan} %message%n%highlight{%throwable}
+        </Property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="RollingFileAccess"
+                     fileName="${sys:user.home}/logs/newdo/translator-server/access.log"
+                     filePattern="${sys:user.home}/logs/newdo/translator-server/access-%d{MM-dd}.log">
+            <PatternLayout pattern="${patternLayout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <!--<SizeBasedTriggeringPolicy size="100 MB"/>-->
+            </Policies>
+        </RollingFile>
+        <RollingFile name="RollingFileInfo"
+                     fileName="${sys:user.home}/logs/newdo/translator-server/info.log"
+                     filePattern="${sys:user.home}/logs/newdo/translator-server/info-%d{MM-dd}.log">
+            <Filters>
+                <ThresholdFilter level="INFO"/>
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout pattern="${patternLayout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <!--<SizeBasedTriggeringPolicy size="100 MB"/>-->
+            </Policies>
+        </RollingFile>
+        <RollingFile name="RollingFileWarn"
+                     fileName="${sys:user.home}/logs/newdo/translator-server/warn.log"
+                     filePattern="${sys:user.home}/logs/newdo/translator-server/warn-%d{MM-dd}.log">
+            <ThresholdFilter level="WARN"/>
+            <PatternLayout pattern="${patternLayout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <!--<SizeBasedTriggeringPolicy size="100 MB"/>-->
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="access" level="INFO" additivity="false">
+            <AppenderRef ref="RollingFileAccess"/>
+        </Logger>
+        <Logger name="org." level="WARN" additivity="false">
+            <appender-ref ref="RollingFileWarn"/>
+        </Logger>
+        <root level="INFO">
+            <appender-ref ref="RollingFileInfo"/>
+            <appender-ref ref="RollingFileWarn"/>
+        </root>
+    </Loggers>
+</Configuration>

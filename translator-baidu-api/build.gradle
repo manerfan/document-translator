@@ -1,0 +1,24 @@
+version '1.0.0'
+
+dependencies {
+    compile project(":translator-base")
+
+    compile("org.springframework.boot:spring-boot-starter")
+
+    compile("com.squareup.okhttp3:okhttp:3.9.0")
+    compile("com.fasterxml.jackson.core:jackson-databind:2.8.10")
+
+    compile("org.apache.commons:commons-pool2:2.4.2")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+jar {
+    baseName = "trans-baidu-api"
+    version = "${version}"
+    manifest {
+        attributes "Implementation-Version": "${version}"
+        attributes "Build-date": new Date()
+        attributes "Created-By": "ManerFan"
+    }
+}

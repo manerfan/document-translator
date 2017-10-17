@@ -1,0 +1,27 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
+    }
+}
+
+apply plugin: 'com.moowork.node'
+
+task install(type: NpmTask) {
+    group = 'node'
+    args = ['install', '--registry=http://registry.cnpmjs.org']
+}
+
+task buildUI(type: NpmTask) {
+    group = 'node'
+    args = ['run', 'build']
+}
+
+task run(type: NpmTask) {
+    group = 'node'
+    args = ['run', 'dev']
+}
