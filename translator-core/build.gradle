@@ -1,0 +1,32 @@
+version '1.0.0'
+
+ext {
+    feignVersion = "9.5.+"
+    jacksonVersion = "2.8.10"
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter")
+    compile("org.springframework.boot:spring-boot-starter-log4j2")
+    compile("org.springframework.cloud:spring-cloud-starter-feign")
+    compile("org.springframework.cloud:spring-cloud-starter-hystrix")
+
+    compile("io.github.openfeign:feign-jackson:${feignVersion}")
+    compile("io.github.openfeign:feign-okhttp:${feignVersion}")
+    compile("io.github.openfeign.form:feign-form:2.2.1")
+
+    compile("commons-io:commons-io:2.6")
+
+    compile("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+    compile("com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}")
+}
+
+jar {
+    baseName = "trans-core"
+    version = "${version}"
+    manifest {
+        attributes "Implementation-Version": "${version}"
+        attributes "Build-date": new Date()
+        attributes "Created-By": "ManerFan"
+    }
+}

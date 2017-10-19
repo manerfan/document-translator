@@ -1,7 +1,9 @@
 rootProject.name = 'document-translator'
 include 'translator-server'
-include 'translator-base'
+include 'translator-core'
 include 'translator-baidu-api'
 include 'translator-sentence-break'
 include 'translator-ui'
+include 'translator-document'
+include 'translator-jpa'
 

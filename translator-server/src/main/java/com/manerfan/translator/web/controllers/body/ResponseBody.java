@@ -16,12 +16,18 @@
 
 package com.manerfan.translator.web.controllers.body;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 
 /**
- * Created by manerfan on 2017/10/12.
+ * ResponseBody
+ *
+ * @author manerfan
+ * @date 2017/10/12
  */
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ResponseBody implements Serializable {
     int code;
     String message;
@@ -36,6 +42,14 @@ public class ResponseBody implements Serializable {
         this.code = code;
         this.message = message;
         this.data = data;
+    }
+
+    public static ResponseBody newBody(int code, String message, Object data) {
+        return new ResponseBody(code, message, data);
+    }
+
+    public static ResponseBody newBody(Object data) {
+        return new ResponseBody(200, "success", data);
     }
 
     public int getCode() {

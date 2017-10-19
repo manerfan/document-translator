@@ -1,7 +1,12 @@
 version '1.0.0'
 
+ext {
+    springfoxVersion = "2.7.+"
+}
+
 dependencies {
     compile project(":translator-baidu-api")
+    compile project(":translator-document")
 
     compile("org.springframework.boot:spring-boot-starter-web") {
         exclude module: "spring-boot-starter-tomcat"
@@ -24,7 +29,7 @@ build {
             from "./translator-server.conf"
             into "./build/libs"
             rename {
-                "${jar.baseName}-${version}.conf"
+                "${jar.baseName}-${jar.version}.conf"
             }
         }
     }
@@ -37,7 +42,7 @@ task distribute(type: Zip) {
 build.finalizedBy distribute
 
 jar {
-    version = "${version}"
+    version = "${version}-beta.1"
     manifest {
         attributes "Implementation-Version": "${version}"
         attributes "Build-date": new Date()

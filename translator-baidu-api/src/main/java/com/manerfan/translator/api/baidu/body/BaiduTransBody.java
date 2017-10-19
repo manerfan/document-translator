@@ -21,12 +21,21 @@ package com.manerfan.translator.api.baidu.body;
 import java.io.Serializable;
 
 /**
- * Created by manerfan on 2017/10/12.
+ * @author manerfan
+ * @date 2017/10/12
  */
 
 public class BaiduTransBody implements Serializable {
     String src;
     String dst;
+
+    public BaiduTransBody(String src, String dst) {
+        this.src = src;
+        this.dst = dst;
+    }
+
+    public BaiduTransBody() {
+    }
 
     public String getSrc() {
         return src;

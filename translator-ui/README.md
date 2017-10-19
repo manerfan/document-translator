@@ -1,4 +1,4 @@
-# trans-ui
+# translator-ui
 
 > document translator ui
 

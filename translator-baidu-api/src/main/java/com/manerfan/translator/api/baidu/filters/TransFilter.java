@@ -18,12 +18,30 @@ package com.manerfan.translator.api.baidu.filters;
 
 import com.manerfan.translator.api.baidu.body.BaiduResponseBody;
 
+
 /**
- * Created by manerfan on 2017/10/16.
+ * @author manerfan
+ * @date 2017/10/16
  */
 
-public interface TransFilter {
-    String pre(String q);
+public interface TransFilter<T> {
+    /**
+     * 预处理
+     *
+     * @param q             翻译原文
+     * @param filterContext 上下文
+     *
+     * @return 预处理结果
+     */
+    String pre(String q, FilterContext<T> filterContext);
 
-    BaiduResponseBody post(BaiduResponseBody resp);
+    /**
+     * 后处理
+     *
+     * @param body          返回结果
+     * @param filterContext 上下文
+     *
+     * @return 后处理结果
+     */
+    BaiduResponseBody post(BaiduResponseBody body, FilterContext<T> filterContext);
 }

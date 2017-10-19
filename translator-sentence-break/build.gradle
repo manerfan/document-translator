@@ -1,7 +1,8 @@
 version '1.0.0'
 
 dependencies {
-    compile project(":translator-base")
+    compile project(":translator-core")
+    compile project(":translator-jpa")
 
     compile("org.springframework.boot:spring-boot-starter")
 
@@ -9,7 +10,7 @@ dependencies {
 }
 
 jar {
-    baseName = "trans-baidu-api"
+    baseName = "translator-sentence-breaks"
     version = "${version}"
     manifest {
         attributes "Implementation-Version": "${version}"

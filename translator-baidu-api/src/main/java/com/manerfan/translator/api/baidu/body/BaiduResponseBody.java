@@ -16,18 +16,21 @@
 
 package com.manerfan.translator.api.baidu.body;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by manerfan on 2017/10/12.
+ * @author manerfan
+ * @date 2017/10/12
  */
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class BaiduResponseBody implements Serializable {
     /**
      * 错误码
@@ -54,6 +57,15 @@ public class BaiduResponseBody implements Serializable {
      */
     List<BaiduTransBody> trans_result;
 
+    public BaiduResponseBody(String from, String to, List<BaiduTransBody> trans_result) {
+        this.from = from;
+        this.to = to;
+        this.trans_result = trans_result;
+    }
+
+    public BaiduResponseBody() {
+    }
+
     public String getDst(String delimiter) {
         if (CollectionUtils.isEmpty(trans_result)) {
             return "";
@@ -64,10 +76,12 @@ public class BaiduResponseBody implements Serializable {
                 .collect(Collectors.joining(delimiter));
     }
 
+    @JsonIgnore
     public String getDst() {
         return getDst("\n");
     }
 
+    @JsonIgnore
     public List<String> getDsts() {
         if (CollectionUtils.isEmpty(trans_result)) {
             return Collections.EMPTY_LIST;

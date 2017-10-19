@@ -16,37 +16,51 @@
 
 package com.manerfan.translator.api.baidu;
 
-import com.manerfan.translator.api.baidu.filters.InitThreadLocalFilter;
-import com.manerfan.translator.api.baidu.filters.RegexThreadLocalFilter;
-import okhttp3.OkHttpClient;
+import com.manerfan.translator.api.baidu.filters.RegexFilter;
+import com.manerfan.translator.api.baidu.filters.TrimFilter;
+import com.manerfan.translator.jpa.entities.StatisticsEntity;
+import com.manerfan.translator.jpa.repositories.StatisticsRepository;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+
 /**
- * Created by manerfan on 2017/10/16.
+ * @author manerfan
+ * @date 2017/10/16
  */
 
 @Configuration
 @ComponentScan(basePackages = "com.manerfan.translator.api.baidu")
-public class BaiduTransAutoConfiguration {
-    @Bean
-    OkHttpClient okHttpClient() {
-        return new OkHttpClient();
-    }
+public class BaiduTransAutoConfiguration implements InitializingBean {
+
+    @Autowired
+    StatisticsRepository statisticsRepository;
 
     @Bean
-    TransUtil transUtil() {
-        TransUtil transUtil = new TransUtil();
-        transUtil.addFilter(new InitThreadLocalFilter());
+    TranslatorManager transUtil(ExecutorService executorService) {
+        TranslatorManager translatorUtil = new TranslatorManager(executorService);
         /* EMAIL */
-        transUtil.addFilter(new RegexThreadLocalFilter("(mailto:\\/\\/)?\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)+[A-Za-z]{2,14}"));
+        translatorUtil.addFilter(new RegexFilter("(mailto:\\/\\/)?\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)+[A-Za-z]{2,14}"));
         /* URL */
-        transUtil.addFilter(new RegexThreadLocalFilter("((https|http|ssh|ftp|rtsp|mms):\\/\\/)?[\\w\\-]+(\\.[\\w\\-]+)+([\\w\\-\\.,@?^=%&:;\\/~\\+#]*[\\w\\-\\@?^=%&\\/~\\+#])?"));
+        translatorUtil.addFilter(new RegexFilter("((https|http|ssh|ftp|rtsp|mms):\\/\\/)?[\\w\\-]+(\\.[\\w\\-]+)+([\\w\\-\\.,@?^=%&:;\\/~\\+#]*[\\w\\-\\@?^=%&\\/~\\+#])?"));
         /* EMOTION */
-        transUtil.addFilter(new RegexThreadLocalFilter("[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|[\u2600-\u27ff]"));
+        translatorUtil.addFilter(new RegexFilter("[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|[\u2600-\u27ff]"));
         /* @MENTION */
-        transUtil.addFilter(new RegexThreadLocalFilter("@[^\\s\\pP\\pS]{1,12}"));
-        return transUtil;
+        translatorUtil.addFilter(new RegexFilter("@[^\\s\\pP\\pS]{1,12}", "", " "));
+        /* TRIM */
+        translatorUtil.addFilter(new TrimFilter());
+
+        return translatorUtil;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        Optional<StatisticsEntity> statisticsEntity = statisticsRepository.getStatistics();
+        statisticsEntity.orElseGet(() -> statisticsRepository.save(new StatisticsEntity()));
     }
 }

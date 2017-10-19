@@ -28,7 +28,8 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 
 /**
- * Created by manerfan on 2017/10/12.
+ * @author manerfan
+ * @date 2017/10/12
  */
 
 @Component
@@ -43,7 +44,7 @@ public class MD5 {
             md5.update(str.getBytes());
             byte[] encryptBytes = md5.digest();
             BigInteger encryptBitInt = new BigInteger(1, encryptBytes);
-            return String.format("%32s",encryptBitInt.toString(16)).replaceAll("\\s", "0");
+            return String.format("%32s", encryptBitInt.toString(16)).replaceAll("\\s", "0");
         } finally {
             if (null != md5) {
                 md5DigestPool.returnObject(md5);

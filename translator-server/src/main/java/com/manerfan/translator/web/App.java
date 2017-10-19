@@ -16,19 +16,36 @@
 
 package com.manerfan.translator.web;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
+import java.io.File;
 
 /**
- * Created by manerfan on 2017/10/16.
+ * App
+ *
+ * @author manerfan
+ * @date 2017/10/16
  */
 
 @SpringBootApplication
-public class App {
+public class App implements InitializingBean {
+    @Value("${server.data.tmpdir}")
+    File tmpDir;
+
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(App.class);
         app.setBannerMode(Banner.Mode.LOG);
         app.run(args);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        tmpDir.mkdirs();
     }
 }

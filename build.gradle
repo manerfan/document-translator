@@ -18,13 +18,14 @@ buildscript {
             name 'spring plugins'
             url 'http://repo.spring.io/plugins-release'
         }
-        mavenCentral()
-        jcenter()
+//        mavenCentral()
+//        jcenter()
     }
 
     dependencies {
         classpath("io.spring.gradle:dependency-management-plugin:${dependencyManagementVersion}")
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("io.spring.gradle:propdeps-plugin:0.0.10.RELEASE")
     }
 }
 
@@ -51,6 +52,11 @@ configure(subprojects - project(":translator-ui")) {
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
 
+    apply plugin: 'propdeps'
+    apply plugin: 'propdeps-maven'
+    apply plugin: 'propdeps-idea'
+    apply plugin: 'propdeps-eclipse'
+
     repositories {
         mavenLocal()
         maven {
@@ -58,15 +64,12 @@ configure(subprojects - project(":translator-ui")) {
             url 'http://maven.aliyun.com/nexus/content/groups/public'
         }
         maven {
-            name 'spring repo milestone'
-            url 'https://repo.spring.io/milestone'
+            name 'EBI'
+            url 'https://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo/'
+            /* for cpdetector */
         }
-        maven {
-            name 'spring plugins'
-            url 'http://repo.spring.io/plugins-release'
-        }
-        mavenCentral()
-        jcenter()
+//        mavenCentral()
+//        jcenter()
     }
 
     configurations {
@@ -76,12 +79,14 @@ configure(subprojects - project(":translator-ui")) {
 
     ext {
         cglibVersion = '3.2.+'
+        springCloudVersion = 'Dalston.SR1'
     }
 
     apply plugin: "io.spring.dependency-management"
     dependencyManagement {
         imports {
             mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
         }
     }
 
@@ -92,6 +97,9 @@ configure(subprojects - project(":translator-ui")) {
         compile 'org.springframework.boot:spring-boot-starter-aop'
         compile("cglib:cglib-nodep:${cglibVersion}")
 
+        compile("com.google.guava:guava:23.2-jre")
+
+        optional("org.springframework.boot:spring-boot-configuration-processor")
         testCompile("junit:junit:4.12")
     }
 
@@ -112,6 +120,12 @@ configure(subprojects - project(":translator-ui")) {
     test {
         forkEvery = 5 // 在fork测试进程中执行测试类的最大数量
         maxParallelForks = Runtime.runtime.availableProcessors() / 2 // fork进程最大数量
+    }
+}
+
+task build {
+    doFirst {
+        // run :translator-ui:buildUI
     }
 }
 

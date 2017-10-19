@@ -16,12 +16,12 @@ task install(type: NpmTask) {
     args = ['install', '--registry=http://registry.cnpmjs.org']
 }
 
-task buildUI(type: NpmTask) {
+task buildUI(type: NpmTask, dependsOn: install) {
     group = 'node'
     args = ['run', 'build']
 }
 
-task run(type: NpmTask) {
+task run(type: NpmTask, dependsOn: install) {
     group = 'node'
     args = ['run', 'dev']
 }
