@@ -54,7 +54,7 @@
 
 ### 下载运行
 
-下载并解压 
+下载并解压 [translator-server-1.0.0-beta.1.zip](https://github.com/manerfan/document-translator/releases/download/v1.0.0-beta.1/translator-server-1.0.0-beta.1.zip)
 
 将百度翻译平台appid及appsecret替换到<code>translator-server-1.0.0-beta.1.conf</code>文件`RUN_ARGS`属性中。
 
