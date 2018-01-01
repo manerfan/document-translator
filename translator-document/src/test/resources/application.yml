@@ -1,0 +1,7 @@
+baidu:
+  trans:
+    base-url: https://fanyi-api.baidu.com
+    app:
+      id: 20170927000085544
+      secret: lruDsIMhXBKqKYBtgAWo
+      limit: 5000

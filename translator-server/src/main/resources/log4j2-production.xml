@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="ERROR" strict="true" name="Dev Logging">
+    <Properties>
+        <Property name="patternLayout">
+            [%d{ISO8601}] [%highlight{%level}] %style{%c{1.}$%method:%line}{bright,cyan} %message%n%highlight{%throwable{full}}
+        </Property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="RollingFile"
+                     fileName="/data/document-translator/logs/kepler.service.log"
+                     filePattern="/data/document-translator/logs/kepler.service.%d{dd}.log">
+            <PatternLayout pattern="${patternLayout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <!--<SizeBasedTriggeringPolicy size="100 MB"/>-->
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <root level="INFO">
+            <appender-ref ref="RollingFile"/>
+        </root>
+    </Loggers>
+</Configuration>

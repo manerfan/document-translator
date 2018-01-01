@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <AppHeader active="/"></AppHeader>
     <h1>可靠、快捷、简易</h1>
     <h4>保持原始办公文档的排版</h4>
     <el-row :gutter="80" style="margin: 5rem 10rem">
@@ -32,25 +31,25 @@
         <el-col :span="6">
           <el-card :body-style="{padding: 0}">
             <h3>文本</h3>
-            <h1>{{num(textTransNum)}}次</h1>
+            <h1>{{num(textTransTimes)}}次</h1>
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card :body-style="{padding: 0}">
             <h3>文档</h3>
-            <h1>{{num(docTransNum)}}次</h1>
+            <h1>{{num(docTransTimes)}}次</h1>
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card :body-style="{padding: 0}">
             <h3>断句</h3>
-            <h1>{{num(sbdNum)}}次</h1>
+            <h1>{{num(sbdTimes)}}次</h1>
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card :body-style="{padding: 0}">
             <h3>总字符</h3>
-            <h1>{{byte(byteTransNum)}}</h1>
+            <h1>{{byte(textTransNum)}}</h1>
           </el-card>
         </el-col>
       </el-row>
@@ -68,13 +67,9 @@
 </template>
 
 <script>
-  import AppHeader from './Header.vue'
   import http from '../tools/http'
 
   export default {
-    components: {
-      AppHeader
-    },
     name: 'Home',
     data () {
       return {
@@ -87,10 +82,10 @@
           name: '中文'
         },
         showStatistics: false,
-        textTransNum: 0,
-        docTransNum: 0,
-        sbdNum: 0,
-        byteTransNum: 0
+        textTransTimes: 0,
+        docTransTimes: 0,
+        sbdTimes: 0,
+        textTransNum: 0
       }
     },
     created () {
@@ -98,10 +93,10 @@
         url: 'trans/statistics',
         method: 'get'
       }).then(({data}) => {
+        this.textTransTimes = data.textTransTimes
+        this.docTransTimes = data.docTransTimes
+        this.sbdTimes = data.sbdTimes
         this.textTransNum = data.textTransNum
-        this.docTransNum = data.docTransNum
-        this.sbdNum = data.sbdNum
-        this.byteTransNum = data.byteTransNum
 
         this.showStatistics = true
       })

@@ -1,0 +1,7 @@
+baidu:
+  trans:
+    base-url: https://fanyi-api.baidu.com
+    app:
+      id: Your App Id
+      secret: Your App Secret
+      limit: 5000

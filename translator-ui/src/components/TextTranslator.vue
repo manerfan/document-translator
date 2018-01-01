@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <AppHeader active="/trans/text"></AppHeader>
     <h2>Powered By <a href="http://api.fanyi.baidu.com/" target="_blank">百度翻译</a></h2>
     <h4>针对聊天中的表情符号及@mention进行特殊处理。</h4>
     <el-row :gutter="20" style="margin: 2rem 2rem">
@@ -47,7 +46,6 @@
 </template>
 
 <script>
-  import AppHeader from './Header.vue'
   import _ from 'lodash'
   import http from '../tools/http'
   import qs from 'qs'
@@ -81,7 +79,6 @@
   }
 
   export default {
-    components: {AppHeader},
     name: 'TextTranslator',
     data () {
       return {

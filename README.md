@@ -54,11 +54,11 @@
 
 ### 下载运行
 
-下载并解压 [translator-server-1.0.0-beta.1.zip](https://github.com/manerfan/document-translator/releases/download/v1.0.0-beta.1/translator-server-1.0.0-beta.1.zip)
+下载并解压 [translator-server-1.1.0-beta.1.zip](https://github.com/manerfan/document-translator/releases/download/v1.1.0-beta.1/translator-server-1.1.0-beta.1.zip)
 
-将百度翻译平台appid及appsecret替换到<code>translator-server-1.0.0-beta.1.conf</code>文件`RUN_ARGS`属性中。
+将百度翻译平台appid及appsecret替换到<code>translator-server.conf</code>文件`RUN_ARGS`属性中。
 
-执行 `./translator-server-1.0.0-beta.1.jar`
+执行 `./translator-server.jar start`
 
 浏览器访问 http://localhost:8001
 
@@ -83,7 +83,7 @@
 所需环境：
 
 1. JDK 1.8+
-2. Gradle 3.5+
+2. Gradle 4.2+
 3. NodeJS 6.9+
 
 clone源码`git clone https://github.com/manerfan/document-translator.git `
@@ -98,4 +98,15 @@ clone源码`git clone https://github.com/manerfan/document-translator.git `
 
 #### 编译
 
-项目根目录执行`gradle clean :translator-ui:buildUI build`
+项目根目录执行`gradle clean :translator-ui:buildUI build -x test`
+
+#### 版本历史
+
+[2018-01-01] v1.1.0-beta.1
+1. kotlin重构
+
+[2017-11-05] v1.0.0-beta.1
+1. 支持文本翻译
+2. 支持文章断句
+3. 支持txt、docx、xlsx、pptx文档翻译
+ 

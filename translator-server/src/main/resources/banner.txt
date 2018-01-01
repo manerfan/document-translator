@@ -7,4 +7,4 @@
 |   |   ||  |  ||  |  ||     ||  .  \|  |   |  |  ||  |  |
 |___|___||__|__||__|__||_____||__|\_||__|   |__|__||__|__|
 
- :: Translator-Server :: ${application.formatted-version}
+ :: Document-Translator :: ${application.formatted-version}

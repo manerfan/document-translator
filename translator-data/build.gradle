@@ -1,0 +1,8 @@
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-data-jpa") {
+        exclude module: 'tomcat-jdbc'
+    }
+    compile("com.alibaba:druid:1.1.5")
+
+    compile("com.h2database:h2")
+}

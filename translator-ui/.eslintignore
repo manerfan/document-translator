@@ -1,2 +1,4 @@
-build-scripts/*.js
-config/*.js
+/build/
+/config/
+/dist/
+/*.js

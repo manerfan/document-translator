@@ -1,51 +1,42 @@
-version '1.0.0'
-
-ext {
-    springfoxVersion = "2.7.+"
-}
+apply plugin: "org.springframework.boot"
 
 dependencies {
-    compile project(":translator-baidu-api")
     compile project(":translator-document")
 
-    compile("org.springframework.boot:spring-boot-starter-web") {
-        exclude module: "spring-boot-starter-tomcat"
-        exclude module: "spring-boot-starter-logging"
-    }
-
+    compile("org.springframework.boot:spring-boot-starter-web")
     compile "org.springframework.boot:spring-boot-starter-actuator"
     compile "org.springframework.boot:spring-boot-starter-undertow"
 }
 
-apply plugin: 'org.springframework.boot'
-
-springBoot {
-    executable = true
+bootJar {
+    launchScript()
 }
 
 build {
     doLast {
         copy {
-            from "./translator-server.conf"
+            from "./springboot.conf"
             into "./build/libs"
             rename {
-                "${jar.baseName}-${jar.version}.conf"
+                "${jar.baseName}.conf"
+            }
+        }
+        copy {
+            from "./src/main/resources/application.yml"
+            into "./build/libs"
+        }
+        copy {
+            from "./src/main/resources/log4j2-production.xml"
+            into "./build/libs"
+            rename {
+                "log4j2.xml"
             }
         }
     }
 }
 
-task distribute(type: Zip) {
+task distributeZip(type: Zip) {
     from("./build/libs")
 }
 
-build.finalizedBy distribute
-
-jar {
-    version = "${version}-beta.1"
-    manifest {
-        attributes "Implementation-Version": "${version}"
-        attributes "Build-date": new Date()
-        attributes "Created-By": "ManerFan"
-    }
-}
+build.finalizedBy distributeZip

@@ -2,19 +2,5 @@ version '1.0.0'
 
 dependencies {
     compile project(":translator-core")
-    compile project(":translator-jpa")
-
-    compile("org.springframework.boot:spring-boot-starter")
-
-    testCompile("org.springframework.boot:spring-boot-starter-test")
-}
-
-jar {
-    baseName = "translator-sentence-breaks"
-    version = "${version}"
-    manifest {
-        attributes "Implementation-Version": "${version}"
-        attributes "Build-date": new Date()
-        attributes "Created-By": "ManerFan"
-    }
+    compile project(":translator-data")
 }

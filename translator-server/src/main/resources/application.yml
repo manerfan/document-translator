@@ -1,0 +1,54 @@
+baidu:
+  trans:
+    base-url: https://fanyi-api.baidu.com
+    app:
+      id: YourAppId
+      secret: YourAppSecret
+      limit: 5000
+
+server:
+  port: 8001
+  data:
+    dir: /data/document-translator
+    doc:
+      dir: ${server.data.dir}/doc
+      clean:
+        enabled: true
+
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:${server.data.dir}/db/h2;AUTO_RECONNECT=TRUE;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
+    username: sa
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: update
+  main:
+    banner-mode: log
+  servlet:
+    multipart:
+      max-file-size: 2MB
+  mvc:
+    throw-exception-if-no-handler-found: true
+    static-path-pattern: /**
+
+---
+
+spring:
+  profiles: production
+
+logging:
+  config: classpath:log4j2-production.xml
+
+---
+
+spring:
+  profiles: dev
+
+logging:
+  config: classpath:log4j2-dev.xml

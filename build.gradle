@@ -1,7 +1,72 @@
+group "com.manerfan.translator"
+version "1.0.0"
+description "document translator"
+
 buildscript {
     ext {
-        springBootVersion = '1.5.+'
-        dependencyManagementVersion = '1.0.+'
+        kotlin_version = "1.2.10"
+        springboot_version = "2.0.+"
+        cglib_version = "3.2.+"
+    }
+
+    repositories {
+        maven {
+            name "aliyun maven central"
+            url "http://maven.aliyun.com/nexus/content/groups/public"
+        }
+        maven {
+            name "spring repo milestone"
+            url "https://repo.spring.io/milestone"
+        }
+        maven {
+            name "spring plugins"
+            url "http://repo.spring.io/plugins-release"
+        }
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springboot_version"
+    }
+}
+
+apply plugin: "idea"
+
+idea {
+    project {
+        languageLevel = "1.8"
+    }
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+configure(subprojects - project(":translator-ui")) {
+    apply plugin: "java"
+    apply plugin: "java-library"
+
+    apply plugin: "kotlin"
+    apply plugin: "kotlin-allopen"
+    apply plugin: "kotlin-spring"
+
+    apply plugin: "io.spring.dependency-management"
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:$springboot_version"
+        }
+    }
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "1.8"
     }
 
     repositories {
@@ -15,61 +80,12 @@ buildscript {
             url 'https://repo.spring.io/milestone'
         }
         maven {
-            name 'spring plugins'
-            url 'http://repo.spring.io/plugins-release'
-        }
-//        mavenCentral()
-//        jcenter()
-    }
-
-    dependencies {
-        classpath("io.spring.gradle:dependency-management-plugin:${dependencyManagementVersion}")
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath("io.spring.gradle:propdeps-plugin:0.0.10.RELEASE")
-    }
-}
-
-version = '1.0.0'
-description = 'document translator'
-
-apply plugin: 'idea'
-
-idea {
-    project {
-        languageLevel = '1.8'
-    }
-    module {
-        downloadJavadoc = true
-        downloadSources = true
-    }
-}
-
-configure(subprojects - project(":translator-ui")) {
-    group = 'com.manerfan.translator'
-
-    apply plugin: 'java'
-
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
-
-    apply plugin: 'propdeps'
-    apply plugin: 'propdeps-maven'
-    apply plugin: 'propdeps-idea'
-    apply plugin: 'propdeps-eclipse'
-
-    repositories {
-        mavenLocal()
-        maven {
-            name 'aliyun maven central'
-            url 'http://maven.aliyun.com/nexus/content/groups/public'
-        }
-        maven {
             name 'EBI'
             url 'https://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo/'
             /* for cpdetector */
         }
-//        mavenCentral()
-//        jcenter()
+        mavenCentral()
+        jcenter()
     }
 
     configurations {
@@ -77,58 +93,20 @@ configure(subprojects - project(":translator-ui")) {
         all*.exclude module: 'spring-boot-starter-logging'
     }
 
-    ext {
-        cglibVersion = '3.2.+'
-        springCloudVersion = 'Dalston.SR1'
-    }
-
-    apply plugin: "io.spring.dependency-management"
-    dependencyManagement {
-        imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
-            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
-        }
-    }
-
     dependencies {
-        compile 'org.springframework.boot:spring-boot-devtools'
+        implementation 'org.springframework.boot:spring-boot-devtools'
+
         compile 'org.springframework.boot:spring-boot-starter-log4j2'
 
-        compile 'org.springframework.boot:spring-boot-starter-aop'
-        compile("cglib:cglib-nodep:${cglibVersion}")
+        compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+        compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+        compile "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:0.20"
 
-        compile("com.google.guava:guava:23.2-jre")
+        compile 'com.google.guava:guava:23.2-jre'
+        compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.2"
 
-        optional("org.springframework.boot:spring-boot-configuration-processor")
-        testCompile("junit:junit:4.12")
+        testCompile "org.springframework.boot:spring-boot-starter-test"
+        testCompile "junit:junit:5.+"
     }
-
-    compileJava.dependsOn(processResources)
-
-    [compileJava, javadoc, compileTestJava]*.options*.encoding = 'UTF-8'
-
-    javadoc {
-        options {
-            encoding 'UTF-8'
-            charSet 'UTF-8'
-            author true
-            version true
-            title 'Spring Boot'
-        }
-    }
-
-    test {
-        forkEvery = 5 // 在fork测试进程中执行测试类的最大数量
-        maxParallelForks = Runtime.runtime.availableProcessors() / 2 // fork进程最大数量
-    }
-}
-
-task build {
-    doFirst {
-        // run :translator-ui:buildUI
-    }
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.5'
 }

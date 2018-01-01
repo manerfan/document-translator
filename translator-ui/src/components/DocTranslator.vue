@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <AppHeader active="/trans/doc"></AppHeader>
     <h2>DocTranslator使用强大的百度翻译功能</h2>
     <h4>DocTranslator依赖不断完善的<a href="http://api.fanyi.baidu.com/" target="_blank">百度翻译</a>服务能力，以此处理文档中的文本，并将其翻译成您所需要的语言。
     </h4>
@@ -54,7 +53,6 @@
 </template>
 
 <script>
-  import AppHeader from './Header.vue'
   import _ from 'lodash'
 
   import options from '../tools/languages'
@@ -76,9 +74,6 @@
   }
 
   export default {
-    components: {
-      AppHeader
-    },
     name: 'DocTranslator',
     data () {
       return {

@@ -1,31 +1,8 @@
-version '1.0.0'
-
-repositories {
-    maven {
-        name 'EBI'
-        url 'https://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo/'
-        /* for cpdetector */
-    }
-}
-
 dependencies {
     compile project(":translator-baidu-api")
 
-    compile("org.springframework.boot:spring-boot-starter")
     compile("cpdetector:cpdetector:1.0.7")
     compile("org.docx4j:docx4j:3.3.6") {
         exclude module: 'slf4j-log4j12'
-    }
-
-    testCompile("org.springframework.boot:spring-boot-starter-test")
-}
-
-jar {
-    baseName = "translator-document"
-    version = "${version}"
-    manifest {
-        attributes "Implementation-Version": "${version}"
-        attributes "Build-date": new Date()
-        attributes "Created-By": "ManerFan"
     }
 }

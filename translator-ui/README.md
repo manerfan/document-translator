@@ -1,42 +1,21 @@
 # translator-ui
 
-> document translator ui
-
-## Documents
-
-[vue-guide](https://cn.vuejs.org/v2/guide/) <br/>
-[vue-loader](https://vue-loader.vuejs.org/zh-cn/) <br/>
-[vuex](https://vuex.vuejs.org/zh-cn/) <br/>
-[vue-router](https://router.vuejs.org/zh-cn/) <br/>
-[vue-router-sync](https://github.com/vuejs/vuex-router-sync) <br/>
-[vue-cli](https://github.com/vuejs/vue-cli) <br/>
-[vue-modal](http://vue-js-modal.yev.io/) <br/>
-[ElementUI](http://element.eleme.io/#/zh-CN)
-
-## Init
-vue init webpack .
-
-? Generate project in current directory? Yes <br/>
-? Project name trans-ui <br/>
-? Project description document translator ui <br/>
-? Author ManerFan <manerfan.china@gmail.com> <br/>
-? Vue build standalone <br/>
-? Install vue-router? Yes <br/>
-? Use ESLint to lint your code? Yes <br/>
-? Pick an ESLint preset Standard <br/>
-? Setup unit tests with Karma + Mocha? No <br/>
-? Setup e2e tests with Nightwatch? No
-
+> Document Translator
 
 ## Build Setup
 
 ``` bash
 # install dependencies
-gradle install
+npm install
 
 # serve with hot reload at localhost:8080
-gradle runDev
+npm run dev
 
 # build for production with minification
-gradle buildUI
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
 ```
+
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

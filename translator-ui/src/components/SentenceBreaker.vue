@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <AppHeader active="/trans/sbd"></AppHeader>
     <h2>现代中英文断句</h2>
     <h4>利用标点符号进行断句。</h4>
     <el-row :gutter="20" style="margin: 2rem 2rem">
@@ -21,15 +20,11 @@
 </template>
 
 <script>
-  import AppHeader from './Header.vue'
   import _ from 'lodash'
   import http from '../tools/http'
   import qs from 'qs'
 
   export default {
-    components: {
-      AppHeader
-    },
     name: 'SentenceBreaker',
     data () {
       return {
